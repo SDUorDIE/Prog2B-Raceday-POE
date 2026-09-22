@@ -56,5 +56,5 @@ jobs:
           echo "README.md found."
  
       - name: All checks passed
-        run: echo "✅ Repository structure meets Part 1 requirements."
+        run: echo "Repository structure meets Part 1 requirements."
  
