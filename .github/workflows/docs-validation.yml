@@ -1,0 +1,49 @@
+name: Validate Part 1 documentation
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify required submission files
+        shell: bash
+        run: |
+          set -euo pipefail
+          required_files=(
+            "README.md"
+            "docs/RaceDay_ERD.png"
+            "docs/RaceDay_Endpoint_Plan.md"
+            "docs/RaceDay_Database.sql"
+          )
+          for file in "${required_files[@]}"; do
+            test -s "$file" || { echo "Missing or empty required file: $file"; exit 1; }
+          done
+
+      - name: Verify endpoint-plan resource coverage
+        shell: bash
+        run: |
+          set -euo pipefail
+          for resource in Authentication "User Profile" Events Categories Enrolments Results; do
+            grep -qi "$resource" docs/RaceDay_Endpoint_Plan.md || {
+              echo "Endpoint plan is missing resource group: $resource"; exit 1;
+            }
+          done
+
+      - name: Verify SQL schema and seed-data statements
+        shell: bash
+        run: |
+          set -euo pipefail
+          for table in Users Events EventCategories Enrolments Results Routes WeatherForecasts; do
+            grep -qi "CREATE TABLE dbo.$table" docs/RaceDay_Database.sql || {
+              echo "SQL script is missing table: $table"; exit 1;
+            }
+          done
+          grep -qi "INSERT INTO dbo.Users" docs/RaceDay_Database.sql
+          grep -qi "INSERT INTO dbo.Events" docs/RaceDay_Database.sql
+
