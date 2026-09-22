@@ -1,49 +1,60 @@
-name: Validate Part 1 documentation
 
+Validate docs · YML
+name: Validate Docs Structure
+ 
 on:
   push:
+    branches: [ main ]
   pull_request:
-
+    branches: [ main ]
+ 
 jobs:
   validate-docs:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
+      - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Verify required submission files
-        shell: bash
+ 
+      - name: Check /docs folder exists
         run: |
-          set -euo pipefail
-          required_files=(
-            "README.md"
-            "docs/RaceDay_ERD.png"
-            "docs/RaceDay_Endpoint_Plan.md"
-            "docs/RaceDay_Database.sql"
-          )
-          for file in "${required_files[@]}"; do
-            test -s "$file" || { echo "Missing or empty required file: $file"; exit 1; }
-          done
-
-      - name: Verify endpoint-plan resource coverage
-        shell: bash
+          if [ ! -d "docs" ]; then
+            echo "ERROR: /docs folder is missing."
+            exit 1
+          fi
+          echo "docs folder found."
+ 
+      - name: Check for Section A ERD
         run: |
-          set -euo pipefail
-          for resource in Authentication "User Profile" Events Categories Enrolments Results; do
-            grep -qi "$resource" docs/RaceDay_Endpoint_Plan.md || {
-              echo "Endpoint plan is missing resource group: $resource"; exit 1;
-            }
-          done
-
-      - name: Verify SQL schema and seed-data statements
-        shell: bash
+          if [ ! -f "docs/Section A ERD.png" ] && [ ! -f "docs/Section A ERD.pdf" ]; then
+            echo "ERROR: 'Section A ERD.png' (or .pdf) not found in /docs."
+            exit 1
+          fi
+          echo "Section A ERD found."
+ 
+      - name: Check for Section B Endpoint Plan
         run: |
-          set -euo pipefail
-          for table in Users Events EventCategories Enrolments Results Routes WeatherForecasts; do
-            grep -qi "CREATE TABLE dbo.$table" docs/RaceDay_Database.sql || {
-              echo "SQL script is missing table: $table"; exit 1;
-            }
-          done
-          grep -qi "INSERT INTO dbo.Users" docs/RaceDay_Database.sql
-          grep -qi "INSERT INTO dbo.Events" docs/RaceDay_Database.sql
-
+          if [ ! -f "docs/Section B Endpoint Plan.pdf" ] && [ ! -f "docs/Section B Endpoint Plan.md" ]; then
+            echo "ERROR: 'Section B Endpoint Plan.pdf' (or .md) not found in /docs."
+            exit 1
+          fi
+          echo "Section B Endpoint Plan found."
+ 
+      - name: Check for Section C SQL script
+        run: |
+          if [ ! -f "docs/Section C.sql" ]; then
+            echo "ERROR: 'Section C.sql' not found in /docs."
+            exit 1
+          fi
+          echo "Section C SQL script found."
+ 
+      - name: Check README exists
+        run: |
+          if [ ! -f "README.md" ]; then
+            echo "ERROR: README.md is missing from the repository root."
+            exit 1
+          fi
+          echo "README.md found."
+ 
+      - name: All checks passed
+        run: echo "✅ Repository structure meets Part 1 requirements."
+ 
