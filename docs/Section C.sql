@@ -150,7 +150,6 @@ CREATE INDEX IX_Enrolments_CategoryId ON dbo.Enrolments(CategoryId);
 CREATE INDEX IX_WeatherForecasts_EventId ON dbo.WeatherForecasts(EventId);
 GO
 
--- PasswordHash values are illustrative placeholders only. Part 2 must hash passwords securely.
 INSERT INTO dbo.Users (FirstName, LastName, Email, PasswordHash, PhoneNumber, Role)
 VALUES
     (N'Thabo', N'Mokoena', N'thabo.mokoena@raceday.example', N'placeholder-hash-thabo', N'+27 82 555 0101', N'Organiser'),
@@ -204,7 +203,6 @@ VALUES
     (3, '2027-01-17', N'Sunny', 25.0, 10.0, 5, N'Weather provider placeholder');
 GO
 
--- Verification queries: show these result sets in the Part 1 video after a successful execution.
 SELECT UserId, FirstName, LastName, Email, Role FROM dbo.Users ORDER BY UserId;
 SELECT EventId, Name, EventType, EventDate, City, Province, Status FROM dbo.Events ORDER BY EventId;
 SELECT c.CategoryId, e.Name AS EventName, c.Name AS CategoryName, c.DistanceKm, c.EntryFee, c.Capacity
