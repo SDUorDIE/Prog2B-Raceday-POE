@@ -59,5 +59,12 @@ The video covers:
 
 ## Reference List 
 
-<!-- Briefly disclose any AI tool use here, per the assignment instructions, e.g.: -->
-<!-- AI tools (Claude) were used to assist with planning discussions and drafting the initial ERD structure, endpoint plan format, and SQL script skeleton. All design decisions, entity relationships, and final content were reviewed, adjusted, and understood by the author. -->
+GitHub, [s.a.]. Workflow syntax for GitHub Actions. [online] Available at: https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax [Accessed 20 September 2026].
+
+The Independent Institute of Education (IIE), 2026. RaceDay: Portfolio of Evidence Part 1 Workshop Slides [PROG6212 Module Material]. The Independent Institute of Education: Unpublished.
+
+Microsoft, 2023. Web API implementation - Azure Architecture Center. [online] Available at: https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-implementation [Accessed 20 September 2026].
+
+Microsoft, 2025. API design - Azure Architecture Center. [online] Available at: https://learn.microsoft.com/en-us/azure/architecture/microservices/design/api-design [Accessed 20 September 2026].
+
+Microsoft, 2026. Primary and foreign key constraints - SQL Server. [online] Available at: https://learn.microsoft.com/en-us/sql/relational-databases/tables/primary-and-foreign-key-constraints [Accessed 20 September 2026].
