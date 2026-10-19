@@ -1,0 +1,60 @@
+
+Validate docs · YML
+name: Validate Docs Structure
+ 
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+ 
+jobs:
+  validate-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+ 
+      - name: Check /docs folder exists
+        run: |
+          if [ ! -d "docs" ]; then
+            echo "ERROR: /docs folder is missing."
+            exit 1
+          fi
+          echo "docs folder found."
+ 
+      - name: Check for Section A ERD
+        run: |
+          if [ ! -f "docs/Section A ERD.png" ] && [ ! -f "docs/Section A ERD.pdf" ]; then
+            echo "ERROR: 'Section A ERD.png' (or .pdf) not found in /docs."
+            exit 1
+          fi
+          echo "Section A ERD found."
+ 
+      - name: Check for Section B Endpoint Plan
+        run: |
+          if [ ! -f "docs/Section B Endpoint Plan.pdf" ] && [ ! -f "docs/Section B Endpoint Plan.md" ]; then
+            echo "ERROR: 'Section B Endpoint Plan.pdf' (or .md) not found in /docs."
+            exit 1
+          fi
+          echo "Section B Endpoint Plan found."
+ 
+      - name: Check for Section C SQL script
+        run: |
+          if [ ! -f "docs/Section C.sql" ]; then
+            echo "ERROR: 'Section C.sql' not found in /docs."
+            exit 1
+          fi
+          echo "Section C SQL script found."
+ 
+      - name: Check README exists
+        run: |
+          if [ ! -f "README.md" ]; then
+            echo "ERROR: README.md is missing from the repository root."
+            exit 1
+          fi
+          echo "README.md found."
+ 
+      - name: All checks passed
+        run: echo "Repository structure meets Part 1 requirements."
+ 
