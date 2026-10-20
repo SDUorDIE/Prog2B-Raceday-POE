@@ -1,57 +1,56 @@
-using Microsoft.AspNetCore.Http.HttpResults;
-using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
+using RaceDayAPI.Data;
 
-namespace RaceDayAPI
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
+
+// Swagger: the XML file lets our /// comments appear as endpoint descriptions.
+builder.Services.AddSwaggerGen(options =>
 {
-    public class Program
+    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFile));
+});
+
+builder.Services.AddDbContext<RaceDayDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Cookie (session) authentication - same approach as the class Authentication_API.
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
     {
-        public static void Main(string[] args)
+        options.Cookie.Name = "RaceDay.Auth";
+        options.Cookie.HttpOnly = true;
+        options.ExpireTimeSpan = TimeSpan.FromHours(2);
+        options.SlidingExpiration = true;
+
+        // By default the cookie handler redirects (302) to a login page.
+        // An API must answer with real status codes instead.
+        options.Events.OnRedirectToLogin = context =>
         {
-            var builder = WebApplication.CreateSlimBuilder(args);
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;   // not logged in
+            return Task.CompletedTask;
+        };
+        options.Events.OnRedirectToAccessDenied = context =>
+        {
+            context.Response.StatusCode = StatusCodes.Status403Forbidden;      // wrong role
+            return Task.CompletedTask;
+        };
+    });
 
-            builder.Services.ConfigureHttpJsonOptions(options =>
-            {
-                options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default);
-            });
+builder.Services.AddAuthorization();
 
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
+var app = builder.Build();
 
-            var app = builder.Build();
+app.UseSwagger();
+app.UseSwaggerUI();
+app.UseHttpsRedirection();
+app.UseAuthentication();   // reads the cookie
+app.UseAuthorization();    // checks the role
+app.MapControllers();
 
-            if (app.Environment.IsDevelopment())
-            {
-                app.MapOpenApi();
-            }
+app.Run();
 
-            Todo[] sampleTodos =
-            [
-                new(1, "Walk the dog"),
-                new(2, "Do the dishes", DateOnly.FromDateTime(DateTime.Now)),
-                new(3, "Do the laundry", DateOnly.FromDateTime(DateTime.Now.AddDays(1))),
-                new(4, "Clean the bathroom"),
-                new(5, "Clean the car", DateOnly.FromDateTime(DateTime.Now.AddDays(2)))
-            ];
-
-            var todosApi = app.MapGroup("/todos");
-            todosApi.MapGet("/", () => sampleTodos)
-                    .WithName("GetTodos");
-
-            todosApi.MapGet("/{id}", Results<Ok<Todo>, NotFound> (int id) =>
-                sampleTodos.FirstOrDefault(a => a.Id == id) is { } todo
-                    ? TypedResults.Ok(todo)
-                    : TypedResults.NotFound())
-                .WithName("GetTodoById");
-
-            app.Run();
-        }
-    }
-
-    public record Todo(int Id, string? Title, DateOnly? DueBy = null, bool IsComplete = false);
-
-    [JsonSerializable(typeof(Todo[]))]
-    internal partial class AppJsonSerializerContext : JsonSerializerContext
-    {
-
-    }
-}
+// unit-test project start the API in memory (WebApplicationFactory<Program>).
+public partial class Program { }
