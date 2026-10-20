@@ -52,7 +52,7 @@ The workflow file is located at `.github/workflows/part2-ci.yml`.
 
 Add your unlisted YouTube demonstration link here before submission:
 
-Video walkthrough: [Add YouTube link](https://www.youtube.com/)
+Video walkthrough: https://youtu.be/tT_cp33TQ88 
 
 ### Code Reference
 
