@@ -60,5 +60,26 @@ Video walkthrough: https://youtu.be/tT_cp33TQ88
 
 ### Code Reference
 
+Class code. The cookie authentication setup follows the Authentication_API project taught in class (IIE, 2026): registering a user, hashing the password with PasswordHasher<T>, creating claims at login, signing in with SignInAsync, and protecting endpoints with [Authorize(Roles = ...)]. These parts were adapted as follows:
+
+Area	Taken from the class code	Changed or added for RaceDay
+Program.cs	Cookie authentication and authorisation registration	401 and 403 responses instead of redirects, UseAuthentication before UseAuthorization, Swagger with XML comments
+AuthController	Register and login flow, password hashing, claims, SignInAsync	Organiser code, user id claim, duplicate-email 409, logout, DTO field named Password
+Role checks	[Authorize(Roles = ...)] on role-specific controllers	Ownership checks and Organiser/Participant rules for every RaceDay endpoint
 
 ### References
+GitHub, [s.a.]. Workflow syntax for GitHub Actions. [online] Available at: https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax [Accessed 20 September 2026].
+
+The Independent Institute of Education (IIE), 2026. RaceDay: Portfolio of Evidence Part 1 Workshop Slides [PROG6212 Module Material]. The Independent Institute of Education: Unpublished.
+
+Microsoft, 2023. Web API implementation - Azure Architecture Center. [online] Available at: https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-implementation [Accessed 20 September 2026].
+
+Microsoft, 2025. API design - Azure Architecture Center. [online] Available at: https://learn.microsoft.com/en-us/azure/architecture/microservices/design/api-design [Accessed 20 September 2026].
+
+Microsoft, 2026. Primary and foreign key constraints - SQL Server. [online] Available at: https://learn.microsoft.com/en-us/sql/relational-databases/tables/primary-and-foreign-key-constraints [Accessed 20 September 2026].
+
+Microsoft, [s.a.]. Use cookie authentication without ASP.NET Core Identity. [online] Available at: https://learn.microsoft.com/en-us/aspnet/core/security/authentication/cookie [Accessed 18 October 2026].
+
+Microsoft, [s.a.]. Migrations overview - EF Core. [online] Available at: https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/ [Accessed 18  October 2026].
+
+Microsoft, [s.a.]. Integration tests in ASP.NET Core. [online] Available at: https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests [Accessed 18 October 2026].
