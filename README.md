@@ -44,7 +44,8 @@ The test suite verifies:
 
 GitHub Actions automatically restores packages, builds the project, and runs unit tests on every push and pull request.
 
-![RaceDay Part 2 CI passing](docs/part2-ci-green.png)
+ <img width="1917" height="1023" alt="image" src="https://github.com/user-attachments/assets/3c75ba8b-a966-4dc8-8fd3-1959422f0b18" />
+
 
 The workflow file is located at `.github/workflows/part2-ci.yml`.
 
