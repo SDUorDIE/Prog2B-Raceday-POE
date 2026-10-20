@@ -22,7 +22,7 @@ Authentication uses secure cookie-based sessions. Passwords are hashed before be
 2. Check the SQL Server connection string in `RaceDayAPI/appsettings.json`.
 3. Apply the Entity Framework Core migrations to create or update the database.
 4. Set `RaceDayAPI` as the startup project.
-5. Run the project using the green ▶ button.
+5. Run the project using the green button.
 6. Open Swagger in the browser to view and test all API endpoints.
 
 ### Run Unit Tests
@@ -39,6 +39,9 @@ The test suite verifies:
 - Organisers can create events.
 - Participants can enrol in an event.
 - Duplicate enrolments are rejected.
+
+  <img width="1917" height="1015" alt="image" src="https://github.com/user-attachments/assets/407ac7d0-1439-42d4-a45b-9d79487a2ef6" />
+
 
 ### CI/CD
 
