@@ -1,0 +1,42 @@
+@model List<RaceDayMVC.Models.ResultSummary>
+@{
+    ViewData["Title"] = "My results";
+}
+
+<div class="py-4 py-lg-5">
+    <p class="text-uppercase text-primary fw-semibold small mb-2">Participant workspace</p>
+    <h1 class="display-6 fw-bold mb-1">My results</h1>
+    <p class="text-muted mb-4">Your recorded results from completed events.</p>
+
+    @if (Model.Count == 0)
+    {
+        <div class="card border-0 bg-light">
+            <div class="card-body p-4 p-lg-5 text-center">
+                <h2 class="h4">No results recorded yet</h2>
+                <p class="text-muted mb-0">When an Organiser records a result for one of your events, it will appear here.</p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive card border-0 shadow-sm">
+            <table class="table table-hover align-middle mb-0">
+                <thead><tr><th>Event</th><th>Date</th><th>Category</th><th>Finish time</th><th>Overall position</th><th>Category position</th><th>Status</th></tr></thead>
+                <tbody>
+                @foreach (var result in Model.OrderByDescending(r => r.RecordedAt))
+                {
+                    <tr>
+                        <td class="fw-semibold">@result.EventName</td>
+                        <td>@(result.EventDate?.ToString("dd MMM yyyy") ?? "—")</td>
+                        <td>@result.CategoryName</td>
+                        <td>@(result.FinishTime?.ToString("HH:mm:ss") ?? "—")</td>
+                        <td>@(result.OverallPosition?.ToString() ?? "—")</td>
+                        <td>@(result.CategoryPosition?.ToString() ?? "—")</td>
+                        <td>@result.Status</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
