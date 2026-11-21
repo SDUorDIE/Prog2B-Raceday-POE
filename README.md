@@ -144,6 +144,10 @@ The `RaceDay Build` workflow restores the API solution, runs API tests, and buil
 - `docs/Section C.sql` — SQL Server schema and seed script; see the database warning above.
 
 ## References
+In-class code references
+
+- `SchoolAPIMVC.zip` — PROG6212 in-class reference code used when developing RaceDay.
+- `BoboAppmvc.zip` — PROG6212 in-class reference code used when developing RaceDay.
 
 GitHub. [Workflow syntax for GitHub Actions](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax).
 
