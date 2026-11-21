@@ -1,0 +1,11 @@
+@model string
+@{
+    ViewData["Title"] = "Service unavailable";
+}
+<div class="py-5">
+    <div class="alert alert-warning" role="alert">
+        <h1 class="h4">We could not load this page</h1>
+        <p class="mb-0">@Model</p>
+    </div>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary">Back to events</a>
+</div>
