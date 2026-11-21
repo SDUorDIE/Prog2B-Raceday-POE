@@ -11,7 +11,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm raceday-nav box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">RaceDay</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -41,7 +41,7 @@
                             <li class="nav-item"><span class="navbar-text me-sm-3">@Context.Session.GetString("RaceDay.Name") <span class="badge text-bg-secondary">@role</span></span></li>
                             <li class="nav-item">
                                 <form asp-controller="Auth" asp-action="Logout" method="post">
-                                    <button class="btn btn-outline-dark btn-sm" type="submit">Sign out</button>
+                                    <button class="btn btn-outline-light btn-sm" type="submit">Sign out</button>
                                 </form>
                             </li>
                         }

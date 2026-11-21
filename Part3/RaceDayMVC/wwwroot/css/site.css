@@ -1,3 +1,23 @@
+:root {
+  --raceday-base: #f2f5f6;
+  --raceday-primary: #17364b;
+  --raceday-accent: #b54420;
+  --bs-body-bg: var(--raceday-base);
+  --bs-body-color: var(--raceday-primary);
+  --bs-primary: var(--raceday-accent);
+  --bs-primary-rgb: 181, 68, 32;
+  --bs-link-color: var(--raceday-primary);
+  --bs-link-hover-color: var(--raceday-accent);
+  --bs-secondary-color: var(--raceday-primary);
+  --bs-border-color: var(--raceday-primary);
+  --bs-success: var(--raceday-primary);
+  --bs-success-rgb: 23, 54, 75;
+  --bs-warning: var(--raceday-accent);
+  --bs-warning-rgb: 181, 68, 32;
+  --bs-danger: var(--raceday-accent);
+  --bs-danger-rgb: 181, 68, 32;
+}
+
 html {
   font-size: 14px;
 }
@@ -8,10 +28,6 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
 html {
   position: relative;
   min-height: 100%;
@@ -19,6 +35,136 @@ html {
 
 body {
   margin-bottom: 60px;
+  background: var(--raceday-base);
+  color: var(--raceday-primary);
+}
+
+.raceday-nav {
+  background: var(--raceday-primary);
+  border-bottom: 3px solid var(--raceday-accent) !important;
+}
+
+.raceday-nav .navbar-brand,
+.raceday-nav .nav-link,
+.raceday-nav .navbar-text {
+  color: var(--raceday-base);
+}
+
+.raceday-nav .nav-link:hover,
+.raceday-nav .nav-link:focus,
+.raceday-nav .navbar-brand:hover {
+  color: var(--raceday-base);
+}
+
+.raceday-nav .nav-link:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--raceday-accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.35rem;
+}
+
+.raceday-nav .navbar-toggler {
+  border-color: var(--raceday-base);
+}
+
+.raceday-nav .navbar-toggler-icon {
+  filter: invert(1);
+}
+
+.btn-primary {
+  --bs-btn-color: var(--raceday-base);
+  --bs-btn-bg: var(--raceday-accent);
+  --bs-btn-border-color: var(--raceday-accent);
+  --bs-btn-hover-color: var(--raceday-base);
+  --bs-btn-hover-bg: var(--raceday-accent);
+  --bs-btn-hover-border-color: var(--raceday-accent);
+  --bs-btn-active-color: var(--raceday-base);
+  --bs-btn-active-bg: var(--raceday-accent);
+  --bs-btn-active-border-color: var(--raceday-accent);
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--raceday-primary);
+  --bs-btn-border-color: var(--raceday-primary);
+  --bs-btn-hover-color: var(--raceday-base);
+  --bs-btn-hover-bg: var(--raceday-primary);
+  --bs-btn-hover-border-color: var(--raceday-primary);
+}
+
+.btn-outline-danger {
+  --bs-btn-color: var(--raceday-primary);
+  --bs-btn-border-color: var(--raceday-primary);
+  --bs-btn-hover-color: var(--raceday-base);
+  --bs-btn-hover-bg: var(--raceday-primary);
+  --bs-btn-hover-border-color: var(--raceday-primary);
+}
+
+.text-danger,
+.text-warning {
+  color: var(--raceday-accent) !important;
+}
+
+.text-success {
+  color: var(--raceday-primary) !important;
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem var(--raceday-base), 0 0 0 0.25rem var(--raceday-accent);
+}
+
+.card,
+.list-group,
+.table,
+.bg-white,
+.bg-light,
+.card-header,
+.card-footer {
+  --bs-card-bg: var(--raceday-base);
+  background-color: var(--raceday-base) !important;
+}
+
+.border,
+.border-top,
+.border-bottom,
+.table,
+.form-control,
+.form-select {
+  border-color: var(--raceday-primary) !important;
+}
+
+.text-muted,
+.text-secondary,
+.text-primary-emphasis,
+.text-bg-light,
+.text-bg-secondary,
+.text-bg-success,
+.text-bg-warning,
+.text-bg-danger,
+.text-bg-primary-subtle {
+  color: var(--raceday-primary) !important;
+}
+
+.text-bg-primary,
+.text-bg-secondary,
+.text-bg-success,
+.text-bg-warning,
+.text-bg-danger,
+.text-bg-light,
+.text-bg-primary-subtle {
+  background-color: var(--raceday-base) !important;
+}
+
+.alert-success,
+.alert-warning,
+.alert-danger,
+.alert-info {
+  color: var(--raceday-primary);
+  background-color: var(--raceday-base);
+  border-color: var(--raceday-primary);
 }
 
 .event-card {
@@ -27,7 +173,7 @@ body {
 
 .event-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 1rem 2rem rgba(24, 39, 75, 0.12) !important;
+  box-shadow: 0 1rem 2rem rgba(23, 54, 75, 0.12) !important;
 }
 
 .event-card-banner {
@@ -54,8 +200,8 @@ body {
   object-fit: cover;
   display: grid;
   place-items: center;
-  background: #e8f2ff;
-  color: #0d6efd;
+  background: var(--raceday-base);
+  color: var(--raceday-accent);
   font-size: 2rem;
   font-weight: 700;
 }
@@ -63,7 +209,7 @@ body {
 .event-card-accent,
 .event-hero-accent {
   height: 8px;
-  background: linear-gradient(90deg, #0d6efd, #20c997);
+  background: linear-gradient(90deg, var(--raceday-primary), var(--raceday-accent));
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
