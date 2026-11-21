@@ -1,0 +1,10 @@
+.git
+.vs
+**/bin
+**/obj
+**/TestResults
+**/node_modules
+.nuget-cache
+build-check
+*.user
+*.suo

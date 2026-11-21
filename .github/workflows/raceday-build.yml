@@ -2,7 +2,7 @@ name: RaceDay Build
 
 on:
   push:
-    branches: [main, api-part2, "part3/**"]
+    branches: [main, api-part2, part3-mvc, "part3/**"]
   pull_request:
     branches: [main]
 
