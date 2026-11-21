@@ -1,0 +1,78 @@
+@model RaceDayMVC.Models.EventDetail
+@inject RaceDayMVC.Services.RaceDayApiClient Api
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="py-4 py-lg-5">
+    <a asp-action="Index" class="link-secondary text-decoration-none">&larr; All events</a>
+    <div class="row g-4 mt-1">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm overflow-hidden">
+                @if (!string.IsNullOrWhiteSpace(Model.BannerImageUrl))
+                {
+                    <img src="@Api.AbsoluteApiUrl(Model.BannerImageUrl)" class="event-banner" alt="Banner for @Model.Name" />
+                }
+                <div class="event-hero-accent"></div>
+                <div class="card-body p-4 p-lg-5">
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        <span class="badge rounded-pill text-bg-primary-subtle text-primary-emphasis">@Model.EventType</span>
+                        <span class="badge rounded-pill text-bg-light border">@Model.DistanceKm.ToString("0.##") km event</span>
+                        <span class="badge rounded-pill text-bg-light border">@Model.Status</span>
+                    </div>
+                    <h1 class="display-6 fw-bold">@Model.Name</h1>
+                    <p class="lead text-muted">@Model.Description</p>
+                    <div class="row g-3 mt-3">
+                        <div class="col-sm-6"><div class="p-3 rounded bg-light"><div class="small text-muted">Date and start time</div><strong>@Model.EventDate.ToString("dddd, dd MMMM yyyy") · @Model.StartTime.ToString("HH:mm")</strong></div></div>
+                        <div class="col-sm-6"><div class="p-3 rounded bg-light"><div class="small text-muted">Location</div><strong>@Model.Venue, @Model.City, @Model.Province</strong></div></div>
+                        <div class="col-sm-6"><div class="p-3 rounded bg-light"><div class="small text-muted">Registration closes</div><strong>@Model.RegistrationCloseDate.ToString("dd MMM yyyy")</strong></div></div>
+                        <div class="col-sm-6"><div class="p-3 rounded bg-light"><div class="small text-muted">Organised by</div><strong>@Model.OrganiserName</strong></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="h4 mb-3">Available categories</h2>
+                    @if (Model.Categories.Count == 0)
+                    {
+                        <p class="text-muted mb-0">No categories are available yet.</p>
+                    }
+                    else
+                    {
+                        <div class="list-group list-group-flush">
+                            @foreach (var category in Model.Categories)
+                            {
+                                <div class="list-group-item px-0">
+                                    <div class="d-flex justify-content-between gap-3">
+                                        <strong>@category.Name</strong>
+                                        <span>R @category.EntryFee.ToString("0.00")</span>
+                                    </div>
+                                    <div class="small text-muted">@category.DistanceKm.ToString("0.##") km
+                                        @if (category.MinimumAge.HasValue || category.MaximumAge.HasValue)
+                                        {
+                                            <span> · Ages @(category.MinimumAge?.ToString() ?? "0")–@(category.MaximumAge?.ToString() ?? "open")</span>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    @if (Context.Session.GetString("RaceDay.Role") == "Participant")
+                    {
+                        <a asp-controller="Participant" asp-action="EnterEvent" asp-route-eventId="@Model.EventId" class="btn btn-primary w-100 mt-4">Enter event</a>
+                    }
+                    else if (Context.Session.GetString("RaceDay.Role") is null)
+                    {
+                        <a asp-controller="Auth" asp-action="Login" class="btn btn-primary w-100 mt-4">Sign in to enter</a>
+                    }
+                    else if (Context.Session.GetString("RaceDay.Role") == "Organiser")
+                    {
+                        <a asp-controller="Organiser" asp-action="Categories" asp-route-eventId="@Model.EventId" class="btn btn-outline-primary w-100 mt-4">Manage categories</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
