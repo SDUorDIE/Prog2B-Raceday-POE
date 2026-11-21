@@ -131,7 +131,8 @@ Open `http://localhost:8080`. The named volume preserves MVC Data Protection key
 The `RaceDay Build` workflow restores the API solution, runs API tests, and builds MVC. It runs for pushes to `main`, `api-part2`, `part3-mvc`, and `part3/**`, and for pull requests to `main`. The latest run on `part3-mvc` passed.
 
 
-**CI run screenshot:** pending final evidence capture.
+**CI run screenshot:** <img width="1917" height="863" alt="image" src="https://github.com/user-attachments/assets/e8c26f29-e7c1-4be7-ab9c-69be4db3fe9f" />
+
 
 **Unlisted demo video:** [Part 1 of Part3.](https://youtu.be/OuMogtasfqA)
 [Part 2 of Part3.]( https://youtu.be/Aau4ny5JyEY)
