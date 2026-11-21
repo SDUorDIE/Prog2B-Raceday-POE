@@ -172,7 +172,7 @@ public class AuthenticationTests : IClassFixture<RaceDayApiFactory>
             phoneNumber = "0821234567",
             password,
             role = "Organiser",
-            organiserCode = "RACEDAY-ORGANISER-2026"
+            organiserCode = "TEST-ONLY-ORGANISER-CODE"
         };
 
         var registerResponse = await _client.PostAsJsonAsync("/api/auth/register", registerRequest);
@@ -216,7 +216,7 @@ public class AuthenticationTests : IClassFixture<RaceDayApiFactory>
             phoneNumber = "0821234567",
             password = organiserPassword,
             role = "Organiser",
-            organiserCode = "RACEDAY-ORGANISER-2026"
+            organiserCode = "TEST-ONLY-ORGANISER-CODE"
         });
         Assert.Equal(HttpStatusCode.Created, organiserRegister.StatusCode);
 
