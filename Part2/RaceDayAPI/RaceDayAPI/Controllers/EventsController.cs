@@ -108,6 +108,9 @@ namespace RaceDayAPI.Controllers
                 DistanceKm = ev.DistanceKm,
                 RegistrationCloseDate = ev.RegistrationCloseDate,
                 Status = ev.Status,
+                BannerImageUrl = string.IsNullOrWhiteSpace(ev.BannerImageBlobName)
+                    ? null
+                    : $"/api/images/event-banners/{Uri.EscapeDataString(ev.BannerImageBlobName)}",
                 OrganiserName = ev.Organiser == null ? string.Empty : $"{ev.Organiser.FirstName} {ev.Organiser.LastName}",
                 Categories = ev.Categories.Where(c => isOwner || c.IsActive).Select(c => c.ToDto()).ToList(),
                 Route = ev.Route?.ToDto(),
