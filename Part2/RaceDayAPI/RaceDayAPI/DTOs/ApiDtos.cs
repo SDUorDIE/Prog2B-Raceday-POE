@@ -45,6 +45,7 @@ namespace RaceDayAPI.DTOs
         public decimal DistanceKm { get; set; }
         public DateOnly RegistrationCloseDate { get; set; }
         public string Status { get; set; } = string.Empty;
+        public string? BannerImageUrl { get; set; }
     }
 
     public class EventDetailDto : EventSummaryDto
@@ -129,6 +130,7 @@ namespace RaceDayAPI.DTOs
         public int EnrolmentId { get; set; }
         public int EventId { get; set; }
         public string EventName { get; set; } = string.Empty;
+        public DateOnly? EventDate { get; set; }
         public string ParticipantName { get; set; } = string.Empty;
         public string CategoryName { get; set; } = string.Empty;
         public TimeOnly? FinishTime { get; set; }

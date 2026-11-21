@@ -20,7 +20,10 @@ namespace RaceDayAPI.DTOs
             Description = e.Description,
             DistanceKm = e.DistanceKm,
             RegistrationCloseDate = e.RegistrationCloseDate,
-            Status = e.Status
+            Status = e.Status,
+            BannerImageUrl = string.IsNullOrWhiteSpace(e.BannerImageBlobName)
+                ? null
+                : $"/api/images/event-banners/{Uri.EscapeDataString(e.BannerImageBlobName)}"
         };
 
         public static CategoryDto ToDto(this EventCategory c) => new()
@@ -85,6 +88,7 @@ namespace RaceDayAPI.DTOs
             EnrolmentId = r.EnrolmentId,
             EventId = r.Enrolment?.Category?.EventId ?? 0,
             EventName = r.Enrolment?.Category?.Event?.Name ?? string.Empty,
+            EventDate = r.Enrolment?.Category?.Event?.EventDate,
             ParticipantName = r.Enrolment?.Participant == null
                 ? string.Empty
                 : $"{r.Enrolment.Participant.FirstName} {r.Enrolment.Participant.LastName}",
