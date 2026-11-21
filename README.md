@@ -130,26 +130,11 @@ Open `http://localhost:8080`. The named volume preserves MVC Data Protection key
 
 The `RaceDay Build` workflow restores the API solution, runs API tests, and builds MVC. It runs for pushes to `main`, `api-part2`, `part3-mvc`, and `part3/**`, and for pull requests to `main`. The latest run on `part3-mvc` passed.
 
-The workshop asks for at least 20 meaningful commits, a green CI screenshot, and an unlisted YouTube video demonstrating MVC, Blob Storage, and Docker. The `part3-mvc` branch has an incremental implementation history. Before final submission:
-
-- Add a screenshot of the successful GitHub Actions run to `docs/raceday-build-passed.png` and link it here.
-- Replace the video line below with the unlisted video URL after recording the demo.
-- Submit the repository link through ARC; do not submit a ZIP file.
 
 **CI run screenshot:** pending final evidence capture.
 
-**Unlisted demo video:** pending recording.
-
-### Suggested demo sequence
-
-1. Explain the MVC → API → SQL Server/Blob Storage architecture.
-2. Show participant and organiser login and role-aware navigation.
-3. Show organiser dashboard, event management, categories, enrolments, and results.
-4. Show participant event search, details, event entry, My Events, My Results, and profile.
-5. Upload and display an event banner and profile picture.
-6. Show that a participant is denied access to organiser pages.
-7. Run the Dockerized MVC site and show it retrieving event data through the API.
-8. Show the successful GitHub Actions run.
+**Unlisted demo video:** [Part 1 of Part3.](https://youtu.be/OuMogtasfqA)
+[Part 2 of Part3.]( https://youtu.be/Aau4ny5JyEY)
 
 ## Part 1 planning files
 
