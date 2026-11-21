@@ -1,5 +1,4 @@
 @model RaceDayMVC.Models.EventRequestViewModel
-@inject RaceDayMVC.Services.RaceDayApiClient Api
 @{
     ViewData["Title"] = "Edit event";
 }
@@ -82,7 +81,7 @@
                         <label asp-for="BannerImage" class="form-label">Event banner</label>
                         @if (!string.IsNullOrWhiteSpace(Model.BannerImageUrl))
                         {
-                            <img src="@Api.AbsoluteApiUrl(Model.BannerImageUrl)" class="img-fluid rounded event-banner-preview mb-3" alt="Current banner for @Model.Name" />
+                            <img src="@Model.BannerImageUrl" class="img-fluid rounded event-banner-preview mb-3" alt="Current banner for @Model.Name" />
                         }
                         <input asp-for="BannerImage" type="file" class="form-control" accept="image/jpeg,image/png,image/webp" />
                         <div class="form-text">Optional JPG, PNG or WebP image; maximum 5 MB. A new upload replaces the current banner.</div>

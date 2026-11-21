@@ -1,5 +1,4 @@
 @model RaceDayMVC.Models.ProfileViewModel
-@inject RaceDayMVC.Services.RaceDayApiClient Api
 @{
     ViewData["Title"] = "Profile";
 }
@@ -15,7 +14,7 @@
                 <div class="card-body p-4">
                     @if (!string.IsNullOrWhiteSpace(Model.ProfilePictureUrl))
                     {
-                        <img class="profile-avatar mb-3" src="@Api.AbsoluteApiUrl(Model.ProfilePictureUrl)" alt="Profile picture for @Model.FirstName @Model.LastName" />
+                        <img class="profile-avatar mb-3" src="@Model.ProfilePictureUrl" alt="Profile picture for @Model.FirstName @Model.LastName" />
                     }
                     else
                     {

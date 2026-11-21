@@ -104,6 +104,28 @@ public sealed class RaceDayApiClient
 
     public string AbsoluteApiUrl(string relativeUri) => new Uri(_http.BaseAddress!, relativeUri.TrimStart('/')).ToString();
 
+    public async Task<ApiCallResult<ApiImage>> DownloadImageAsync(string relativeUri, CancellationToken cancellationToken = default)
+    {
+        using var request = CreateRequest(HttpMethod.Get, relativeUri, authenticated: false);
+        try
+        {
+            using var response = await _http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+            if (!response.IsSuccessStatusCode)
+            {
+                var payload = await response.Content.ReadAsStringAsync(cancellationToken);
+                return ApiCallResult<ApiImage>.Failure(response.StatusCode, GetApiMessage(payload));
+            }
+
+            var content = await response.Content.ReadAsByteArrayAsync(cancellationToken);
+            var contentType = response.Content.Headers.ContentType?.ToString() ?? "application/octet-stream";
+            return ApiCallResult<ApiImage>.Success(new ApiImage(content, contentType));
+        }
+        catch (HttpRequestException)
+        {
+            return ApiCallResult<ApiImage>.Failure(HttpStatusCode.ServiceUnavailable, "The RaceDay API is unavailable. Please try again shortly.");
+        }
+    }
+
     public async Task<ApiCallResult<T>> UploadFileAsync<T>(string relativeUri, IFormFile file, CancellationToken cancellationToken = default)
     {
         using var request = CreateRequest(HttpMethod.Post, relativeUri, authenticated: true);
@@ -190,3 +212,5 @@ public sealed record ApiCallResult<T>(bool Succeeded, HttpStatusCode StatusCode,
     public static ApiCallResult<T> Success(T? value) => new(true, HttpStatusCode.OK, value, null);
     public static ApiCallResult<T> Failure(HttpStatusCode statusCode, string errorMessage) => new(false, statusCode, default, errorMessage);
 }
+
+public sealed record ApiImage(byte[] Content, string ContentType);

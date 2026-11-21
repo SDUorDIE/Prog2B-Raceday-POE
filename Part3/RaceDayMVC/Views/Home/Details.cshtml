@@ -1,5 +1,4 @@
 @model RaceDayMVC.Models.EventDetail
-@inject RaceDayMVC.Services.RaceDayApiClient Api
 @{
     ViewData["Title"] = Model.Name;
 }
@@ -11,7 +10,7 @@
             <div class="card border-0 shadow-sm overflow-hidden">
                 @if (!string.IsNullOrWhiteSpace(Model.BannerImageUrl))
                 {
-                    <img src="@Api.AbsoluteApiUrl(Model.BannerImageUrl)" class="event-banner" alt="Banner for @Model.Name" />
+                    <img src="@Model.BannerImageUrl" class="event-banner" alt="Banner for @Model.Name" />
                 }
                 <div class="event-hero-accent"></div>
                 <div class="card-body p-4 p-lg-5">

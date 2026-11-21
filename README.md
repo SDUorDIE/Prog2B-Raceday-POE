@@ -32,7 +32,7 @@ Browser → Part 3 MVC → Part 2 API → SQL Server
                                └──→ Azure Blob Storage
 ```
 
-MVC sends application requests through `RaceDayApiClient`. MVC does not use the API's `DbContext`, connect directly to SQL Server, or upload directly to Azure. The API enforces authentication and role checks, stores images in private Blob containers, and serves images back through API endpoints. Organiser and Azure settings belong in API User Secrets or the deployment environment; do not put credentials in source files or browser code.
+MVC sends application requests through `RaceDayApiClient`. MVC does not use the API's `DbContext`, connect directly to SQL Server, or upload directly to Azure. The API enforces authentication and role checks and stores images in private Blob containers. MVC relays browser image requests through the API under the MVC site's own address, so the browser does not need to resolve the container-only API hostname. Organiser and Azure settings belong in API User Secrets or the deployment environment; do not put credentials in source files or browser code.
 
 ## Part 3 features
 
