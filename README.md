@@ -31,15 +31,57 @@ All planning documents for this part are in the [`/docs`](./docs) folder:
 
 ## Setup Instructions
 
+> **Existing RaceDayDB:** do not rerun `docs/Section C.sql` on a database that already contains your work. That script drops and recreates RaceDayDB.
+
 1. Clone this repository.
 2. Open SQL Server Management Studio (SSMS).
 3. Open `docs/Section C.sql`.
 4. Execute the script against your SQL Server instance — it will create the database, all tables, and seed sample data.
 5. Review `docs/Section A ERD.png` and `docs/Section B Endpoint Plan.pdf` alongside the script to see how the planning documents map to the schema.
 
+## Part 3: MVC and Deployment
+
+The Part 3 MVC site is in `Part3/RaceDayMVC`. It reads and writes application data only through the Part 2 API; it does not use the API's `DbContext` or connect directly to Azure Storage.
+
+### Local run
+
+1. Install the .NET 10 SDK and make sure the SQL Server instance in the API's `ConnectionStrings:DefaultConnection` is available. The workshop setup uses LocalDB.
+2. Configure development-only API secrets from the repository root. Replace the placeholders with your own values; do not commit them:
+
+   ```powershell
+   dotnet user-secrets set "OrganiserRegistrationCode" "<your organiser code>" --project Part2/RaceDayAPI/RaceDayAPI/RaceDayAPI.csproj
+   dotnet user-secrets set "AzureBlobStorage:ConnectionString" "<your Azure Storage connection string>" --project Part2/RaceDayAPI/RaceDayAPI/RaceDayAPI.csproj
+   ```
+
+3. Apply the additive image-reference migration to the same database used by the API:
+
+   ```powershell
+   dotnet ef database update --project Part2/RaceDayAPI/RaceDayAPI/RaceDayAPI.csproj --startup-project Part2/RaceDayAPI/RaceDayAPI/RaceDayAPI.csproj
+   ```
+
+4. Start the API and then the MVC site in separate terminals:
+
+   ```powershell
+   dotnet run --project Part2/RaceDayAPI/RaceDayAPI/RaceDayAPI.csproj --launch-profile http
+   dotnet run --project Part3/RaceDayMVC/RaceDayMVC.csproj --launch-profile http
+   ```
+
+The API listens at `http://localhost:5069` and MVC at `http://localhost:5081` by default. Event banners and profile pictures accept JPG, PNG or WebP images up to 5 MB. The API validates images and sends them to private Azure Blob Storage containers; the MVC app uploads through the API, and the API serves the stored images.
+
+### Docker
+
+The MVC multi-stage Dockerfile is `Part3/RaceDayMVC/Dockerfile`. Run the Part 2 API on the host first, then build and run MVC from the repository root:
+
+```powershell
+docker build -f Part3/RaceDayMVC/Dockerfile -t raceday-mvc .
+docker run --rm -p 8080:8080 -e RaceDayApi__BaseUrl=http://host.docker.internal:5069/ raceday-mvc
+```
+
+Open `http://localhost:8080`. The container calls the host API at `host.docker.internal`; the API remains responsible for SQL Server and Azure access.
+
 ## CI/CD
 
-A GitHub Actions workflow (`.github/workflows/validate-docs.yml`) runs on every push and validates that the `/docs` folder contains the required planning documents and that `README.md` exists.
+A GitHub Actions workflow (`.github/workflows/raceday-build.yml`) restores the API solution, runs the existing API checks, and builds the Part 3 MVC project. The existing documentation workflow continues to check the Part 1 `/docs` files.
 
 **Build status screenshot:**
 

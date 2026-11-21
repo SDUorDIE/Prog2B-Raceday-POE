@@ -1,0 +1,34 @@
+name: RaceDay Build
+
+on:
+  push:
+    branches: [main, api-part2, "part3/**"]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore API and API test projects
+        run: dotnet restore Part2/RaceDayAPI/RaceDayAPI.slnx
+
+      - name: Run API tests
+        run: dotnet test Part2/RaceDayAPI/RaceDayAPI.Tests/RaceDayAPI.Tests.csproj --configuration Release --no-restore
+
+      - name: Restore MVC project
+        run: dotnet restore Part3/RaceDayMVC/RaceDayMVC.csproj
+
+      - name: Build MVC project
+        run: dotnet build Part3/RaceDayMVC/RaceDayMVC.csproj --configuration Release --no-restore
