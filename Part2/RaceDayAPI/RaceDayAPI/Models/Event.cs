@@ -15,6 +15,7 @@ namespace RaceDayAPI.Models
         public decimal DistanceKm { get; set; }                  // NEW: required by the Part 2 brief
         public DateOnly RegistrationCloseDate { get; set; }
         public string Status { get; set; } = "Published";        // Draft, Published, Cancelled, Completed
+        public string? BannerImageBlobName { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public User? Organiser { get; set; }

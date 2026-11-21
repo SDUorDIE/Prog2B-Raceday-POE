@@ -11,6 +11,7 @@ namespace RaceDayAPI.Models
         public string Role { get; set; } = Roles.Participant;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public bool IsActive { get; set; } = true;
+        public string? ProfilePictureBlobName { get; set; }
 
         public ICollection<Event> OrganisedEvents { get; set; } = new List<Event>();
         public ICollection<Enrolment> Enrolments { get; set; } = new List<Enrolment>();
