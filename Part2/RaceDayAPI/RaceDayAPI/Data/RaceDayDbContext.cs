@@ -28,6 +28,7 @@ namespace RaceDayAPI.Data
                 e.Property(x => x.Email).HasMaxLength(255).IsRequired();
                 e.Property(x => x.PasswordHash).HasMaxLength(255).IsRequired();
                 e.Property(x => x.PhoneNumber).HasMaxLength(30);
+                e.Property(x => x.ProfilePictureBlobName).HasMaxLength(300);
                 e.Property(x => x.Role).HasMaxLength(20).IsRequired();
                 e.Property(x => x.CreatedAt).HasColumnType("datetime2(0)");
                 e.HasIndex(x => x.Email).IsUnique().HasDatabaseName("UQ_Users_Email");
@@ -52,6 +53,7 @@ namespace RaceDayAPI.Data
                 e.Property(x => x.Description).HasMaxLength(1000).IsRequired();
                 e.Property(x => x.DistanceKm).HasPrecision(6, 2);
                 e.Property(x => x.Status).HasMaxLength(20).IsRequired();
+                e.Property(x => x.BannerImageBlobName).HasMaxLength(300);
                 e.Property(x => x.CreatedAt).HasColumnType("datetime2(0)");
                 e.HasOne(x => x.Organiser).WithMany(u => u.OrganisedEvents)
                     .HasForeignKey(x => x.OrganiserId).OnDelete(DeleteBehavior.Restrict);
