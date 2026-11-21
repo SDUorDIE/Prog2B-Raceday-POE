@@ -1,0 +1,74 @@
+@model RaceDayMVC.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Create account";
+}
+
+<div class="row justify-content-center py-5">
+    <div class="col-12 col-md-8 col-lg-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4 p-md-5">
+                <p class="text-uppercase text-primary fw-semibold small mb-2">Join the starting line</p>
+                <h1 class="h2 mb-4">Create your RaceDay account</h1>
+                <form asp-action="Register" method="post">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="FirstName" class="form-label"></label>
+                            <input asp-for="FirstName" class="form-control" autocomplete="given-name" />
+                            <span asp-validation-for="FirstName" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="LastName" class="form-label"></label>
+                            <input asp-for="LastName" class="form-control" autocomplete="family-name" />
+                            <span asp-validation-for="LastName" class="text-danger small"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label">Email address</label>
+                        <input asp-for="Email" class="form-control" autocomplete="email" />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="PhoneNumber" class="form-label">Phone number <span class="text-muted">(optional)</span></label>
+                        <input asp-for="PhoneNumber" class="form-control" autocomplete="tel" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label"></label>
+                        <input asp-for="Password" class="form-control" autocomplete="new-password" />
+                        <span asp-validation-for="Password" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Role" class="form-label">Account type</label>
+                        <select asp-for="Role" class="form-select" id="role-select">
+                            <option value="Participant">Participant</option>
+                            <option value="Organiser">Organiser</option>
+                        </select>
+                        <span asp-validation-for="Role" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-4" id="organiser-code-field" hidden>
+                        <label asp-for="OrganiserCode" class="form-label">Organiser registration code</label>
+                        <input asp-for="OrganiserCode" class="form-control" autocomplete="off" />
+                        <span asp-validation-for="OrganiserCode" class="text-danger small"></span>
+                        <div class="form-text">Organiser accounts require the code provided by the event administrator.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Create account</button>
+                </form>
+                <p class="text-center text-muted mt-4 mb-0">Already registered? <a asp-action="Login">Sign in</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (() => {
+            const role = document.getElementById('role-select');
+            const code = document.getElementById('organiser-code-field');
+            const update = () => code.hidden = role.value !== 'Organiser';
+            role.addEventListener('change', update);
+            update();
+        })();
+    </script>
+}
