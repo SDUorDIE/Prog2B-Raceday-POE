@@ -100,7 +100,10 @@ namespace RaceDayAPI.Controllers
             LastName = u.LastName,
             Email = u.Email,
             PhoneNumber = u.PhoneNumber,
-            Role = u.Role
+            Role = u.Role,
+            ProfilePictureUrl = string.IsNullOrWhiteSpace(u.ProfilePictureBlobName)
+                ? null
+                : $"/api/images/profile-pictures/{Uri.EscapeDataString(u.ProfilePictureBlobName)}"
         };
     }
 }
