@@ -1,0 +1,100 @@
+@model RaceDayMVC.Models.EventRequestViewModel
+@inject RaceDayMVC.Services.RaceDayApiClient Api
+@{
+    ViewData["Title"] = "Edit event";
+}
+
+<div class="row justify-content-center py-4 py-lg-5">
+    <div class="col-12 col-xl-9">
+        <a asp-action="Events" class="link-secondary text-decoration-none">&larr; My events</a>
+        <div class="mt-3 mb-4">
+            <p class="text-uppercase text-primary fw-semibold small mb-2">Organiser workspace</p>
+            <h1 class="display-6 fw-bold">Edit event</h1>
+            <p class="text-muted">Update the race details and event status.</p>
+        </div>
+        <form asp-action="EditEvent" asp-route-eventId="@Model.EventId" method="post" enctype="multipart/form-data" class="card border-0 shadow-sm">
+            <div class="card-body p-4 p-lg-5">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                <div class="row g-3">
+                    <div class="col-md-8">
+                        <label asp-for="Name" class="form-label">Event name</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="EventType" class="form-label">Activity</label>
+                        <select asp-for="EventType" class="form-select">
+                            <option value="Running">Running</option>
+                            <option value="Walking">Walking</option>
+                            <option value="Cycling">Cycling</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="EventDate" class="form-label">Event date</label>
+                        <input asp-for="EventDate" type="date" class="form-control" />
+                        <span asp-validation-for="EventDate" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="StartTime" class="form-label">Start time</label>
+                        <input asp-for="StartTime" type="time" class="form-control" />
+                        <span asp-validation-for="StartTime" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="DistanceKm" class="form-label">Overall distance (km)</label>
+                        <input asp-for="DistanceKm" type="number" min="0.01" max="1000" step="0.01" class="form-control" />
+                        <span asp-validation-for="DistanceKm" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Venue" class="form-label"></label>
+                        <input asp-for="Venue" class="form-control" />
+                        <span asp-validation-for="Venue" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="City" class="form-label"></label>
+                        <input asp-for="City" class="form-control" />
+                        <span asp-validation-for="City" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="Province" class="form-label"></label>
+                        <input asp-for="Province" class="form-control" />
+                        <span asp-validation-for="Province" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="RegistrationCloseDate" class="form-label">Registration closes</label>
+                        <input asp-for="RegistrationCloseDate" type="date" class="form-control" />
+                        <span asp-validation-for="RegistrationCloseDate" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Status" class="form-label"></label>
+                        <select asp-for="Status" class="form-select">
+                            <option value="Published">Published</option>
+                            <option value="Draft">Draft</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="Description" class="form-label"></label>
+                        <textarea asp-for="Description" rows="4" class="form-control"></textarea>
+                        <span asp-validation-for="Description" class="text-danger small"></span>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="BannerImage" class="form-label">Event banner</label>
+                        @if (!string.IsNullOrWhiteSpace(Model.BannerImageUrl))
+                        {
+                            <img src="@Api.AbsoluteApiUrl(Model.BannerImageUrl)" class="img-fluid rounded event-banner-preview mb-3" alt="Current banner for @Model.Name" />
+                        }
+                        <input asp-for="BannerImage" type="file" class="form-control" accept="image/jpeg,image/png,image/webp" />
+                        <div class="form-text">Optional JPG, PNG or WebP image; maximum 5 MB. A new upload replaces the current banner.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-white border-0 px-4 px-lg-5 pb-4 d-flex justify-content-end gap-2">
+                <a asp-action="Events" class="btn btn-outline-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

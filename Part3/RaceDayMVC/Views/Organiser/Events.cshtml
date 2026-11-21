@@ -1,0 +1,56 @@
+@model List<RaceDayMVC.Models.EventSummary>
+@{
+    ViewData["Title"] = "My events";
+}
+
+<div class="py-4 py-lg-5">
+    <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
+        <div>
+            <p class="text-uppercase text-primary fw-semibold small mb-2">Organiser workspace</p>
+            <h1 class="display-6 fw-bold mb-1">My events</h1>
+            <p class="text-muted mb-0">Create and manage the events you organise.</p>
+        </div>
+        <a asp-action="CreateEvent" class="btn btn-primary">Create event</a>
+    </div>
+
+    @if (Model.Count == 0)
+    {
+        <div class="card border-0 bg-light">
+            <div class="card-body p-4 p-lg-5 text-center">
+                <h2 class="h4">Your event list is empty</h2>
+                <p class="text-muted">Create your first RaceDay event to publish it for participants.</p>
+                <a asp-action="CreateEvent" class="btn btn-primary">Create your first event</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row g-3">
+            @foreach (var item in Model.OrderBy(e => e.EventDate))
+            {
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-3 p-lg-4 d-flex flex-wrap justify-content-between align-items-center gap-3">
+                            <div>
+                                <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
+                                    <h2 class="h5 fw-bold mb-0">@item.Name</h2>
+                                    <span class="badge text-bg-light border">@item.Status</span>
+                                </div>
+                                <p class="text-muted mb-0">@item.EventType · @item.EventDate.ToString("ddd, dd MMM yyyy") · @item.City · @item.DistanceKm.ToString("0.##") km</p>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <a asp-action="Results" asp-route-eventId="@item.EventId" class="btn btn-outline-secondary">Results</a>
+                                <a asp-action="Categories" asp-route-eventId="@item.EventId" class="btn btn-outline-secondary">Categories</a>
+                                <a asp-action="EditEvent" asp-route-eventId="@item.EventId" class="btn btn-outline-primary">Edit</a>
+                                <form asp-action="DeleteEvent" asp-route-eventId="@item.EventId" method="post" onsubmit="return confirm('Delete this event? Events with enrolments cannot be deleted.');">
+                                    <button type="submit" class="btn btn-outline-danger">Delete</button>
+                                </form>
+                                <a asp-controller="Home" asp-action="Details" asp-route-id="@item.EventId" class="btn btn-outline-primary">View event</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

@@ -1,0 +1,47 @@
+@model RaceDayMVC.Models.OrganiserDashboardViewModel
+@{
+    ViewData["Title"] = "Organiser dashboard";
+    var upcoming = Model.Events.Where(e => e.EventDate >= DateOnly.FromDateTime(DateTime.Today) && e.Status == "Published")
+        .OrderBy(e => e.EventDate).Take(5).ToList();
+}
+
+<div class="py-4 py-lg-5">
+    <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
+        <div>
+            <p class="text-uppercase text-primary fw-semibold small mb-2">Organiser workspace</p>
+            <h1 class="display-6 fw-bold mb-1">Dashboard</h1>
+            <p class="text-muted mb-0">A quick view of your events and participant entries.</p>
+        </div>
+        <a asp-action="CreateEvent" class="btn btn-primary">Create event</a>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-4"><div class="card border-0 shadow-sm h-100"><div class="card-body p-4"><p class="text-muted mb-1">Events you organise</p><p class="display-6 fw-bold mb-0">@Model.Events.Count</p></div></div></div>
+        <div class="col-md-4"><div class="card border-0 shadow-sm h-100"><div class="card-body p-4"><p class="text-muted mb-1">Participant entries</p><p class="display-6 fw-bold mb-0">@Model.TotalEnrolments</p></div></div></div>
+        <div class="col-md-4"><div class="card border-0 shadow-sm h-100"><div class="card-body p-4"><p class="text-muted mb-1">Upcoming published events</p><p class="display-6 fw-bold mb-0">@Model.UpcomingEvents</p></div></div></div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h4 fw-bold mb-0">Upcoming events</h2>
+        <a asp-action="Events" class="btn btn-outline-primary btn-sm">Manage all events</a>
+    </div>
+    @if (upcoming.Count == 0)
+    {
+        <div class="card border-0 bg-light"><div class="card-body p-4 text-center">
+            <h3 class="h5">No upcoming published events</h3>
+            <p class="text-muted mb-0">Create an event or publish a draft to see it here.</p>
+        </div></div>
+    }
+    else
+    {
+        <div class="list-group shadow-sm">
+        @foreach (var item in upcoming)
+        {
+            <a asp-action="Results" asp-route-eventId="@item.EventId" class="list-group-item list-group-item-action d-flex flex-wrap justify-content-between gap-2">
+                <span><strong>@item.Name</strong><span class="d-block text-muted">@item.City · @item.EventDate.ToString("ddd, dd MMM yyyy")</span></span>
+                <span class="badge text-bg-primary align-self-center">@Model.EnrolmentCounts.GetValueOrDefault(item.EventId) entries</span>
+            </a>
+        }
+        </div>
+    }
+</div>
